@@ -1,0 +1,29 @@
+const express = require('express');
+const app = express()
+app.use(express.json())
+const fetch = require('node-fetch')
+let  data = [];
+
+fetch("https://dog.ceo/api/breeds/list/all")
+  .then(res => res.json())
+   .then(json =>  data.push(json))
+
+app.get('/api',(req,res) => {
+	res.send(data)
+
+})
+app.get('/Fapi/:breed',(req,res) => {
+	const breed = req.params.breed
+	console.log(breed)  
+	let message = data[0]
+	let list = Object.assign(data[0],{breed:data[0].message(breed)});
+	console.log(list)
+	res.send(list)
+	
+})
+app.post('/Rapi/:breed',(req,res) => {
+      const breed = req.params.breed
+      res.send(data[0].message.breed != req.params.breed)
+
+});
+app.listen(3000,()=>console.log('Server Started'))
